@@ -1,0 +1,21 @@
+#Reading raw data from an sqlite table in python
+import sqlite3 as sql
+
+con = sql.connect(r"E:\Users.db")
+c = con.cursor()
+con.row_factory = sql.Row
+username = input("What is your username: ")
+
+readdata = input("Select the message you wish to read: ")
+c.execute("SELECT Sender, Recipient, Subject, Message FROM Mail WHERE (Subject LIKE ?) AND   (Recipient LIKE ?)", (readdata, username))
+
+component = c.fetchall()
+
+for row in component:
+    (sent, rec, subject, msg) = tuple(row)
+    print()
+    print("Sender: " + sent)
+    print("Recipient: " + rec)
+    print("Subject: " + subject)
+    print()
+    print("Message: " + msg)
